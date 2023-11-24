@@ -68,7 +68,7 @@ session.keyFile:	~/.fluxbox/keys
 session.appsFile:	/home/kikadf/.fluxbox/apps
 session.menuSearch:	itemstart
 session.ignoreBorder:	false
-session.styleFile:	/home/kikadf/.fluxbox/styles/myDEFCON_2
+session.styleFile:	/home/kikadf/.fluxbox/styles/kikadf
 session.autoRaiseDelay:	250
 session.doubleClickInterval:	250
 session.tabsAttachArea:	Window
