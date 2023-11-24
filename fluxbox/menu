@@ -1,0 +1,19 @@
+[begin] (OpenBSD|Fluxbox)
+[encoding] {UTF-8}
+      [config] (Configure)
+[submenu] (System Styles) {Choose a style...}
+      [stylesdir] (/usr/local/share/fluxbox/styles)
+[end]
+[submenu] (User Styles) {Choose a style...}
+      [stylesdir] (~/.fluxbox/styles)
+[end]
+      [workspaces] (Workspace List)
+      [exec] (Lock screen) {xlock}
+      [reconfig] (Reload config)
+      [restart] (Restart Fluxbox)
+      [separator]
+      [exit] (Logout)
+      [exec] (Reboot) {shutdown -r now}
+      [exec] (Shutdown) {shutdown -p now}
+[endencoding]
+[end]
