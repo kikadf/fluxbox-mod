@@ -1,5 +1,5 @@
 # bsd-zsh-config
-Zsh config to BSDs (originally to DragonFly)
+Zsh config to BSDs
 
 ### Internal dependencies:
 - [manjaro-zsh-config](https://github.com/Chrysostomus/manjaro-zsh-config)
