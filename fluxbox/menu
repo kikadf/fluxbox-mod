@@ -1,4 +1,4 @@
-[begin] (OpenBSD|Fluxbox)
+[begin] (@OSNAME@|Fluxbox)
 [encoding] {UTF-8}
       [config] (Configure)
 [submenu] (System Styles) {Choose a style...}

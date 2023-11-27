@@ -103,8 +103,9 @@ build_zc() {
     msg "Build zsh-completions..."
     cd extrenal
     git clone https://github.com/zsh-users/zsh-completions || return 1
-    cd zsh-completions
-    install -vDm 644 src/* -t "${_D_zsh_confdir}/zsh-completions/" || return 1
+    cd zsh-completions/src
+    install -d "${_D_zsh_confdir}/zsh-completions" || return 1 
+    find . -type f -exec install -m644 '{}' "${_D_zsh_confdir}/zsh-completions/{}" ';' || return 1
     msg "...zsh-completions done." && cd $_D_basedir
     return 0
 }
@@ -140,6 +141,28 @@ build_p10k() {
     return 0
 }
 
+# Edit config file(s), and install them
+build_fluxbox() {
+    msg "Build fluxbox configs..."
+    cd fluxbox
+    sed -i "s|@OSNAME@|$_D_os|" menu
+    install -d $HOME/.fluxbox/styles/kikadf/pixmaps || return 1
+    install -d $HOME/.fluxbox/backgrounds || return 1
+    find . -type f -exec install -m644 '{}' "$HOME/.fluxbox/{}" ';'  || return 1
+    msg "...fluxbox configs done." && cd $_D_basedir
+    return 0
+}
+
+# Rofi config
+build_rofi() {
+    msg "Build rofi configs..."
+    cd config/rofi
+    install -d $HOME/.config/rofi || return 1
+    find . -type f -exec install -m644 '{}' "$HOME/.config/rofi/{}" ';'  || return 1
+    msg "...rofi configs done." && cd $_D_basedir
+    return 0
+}
+
 # Work
 msg "Install dependencies:"
 install_deps || exit 1
@@ -151,6 +174,8 @@ if [ "$_D_os" = "OpenBSD" ]; then
     build_zc || exit 1
     build_zas || exit 1
 fi
+build_fluxbox || exit 1
+build_rofi || exit 1
 
 if [ "$1" != "-d" ]; then
     cleaning
