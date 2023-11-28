@@ -17,16 +17,20 @@ mkdir extrenal
 
 # Small functions
 msg() {
-    echo ">>> $@"
+    echo ">>> $*"
 }
 
 patching() {
-    for _patch in $(ls "$_D_patchdir"/"$1"/); do
-        patch -Np1 -i "$_D_patchdir"/"$1"/"$_patch" || return 1
+    for _patch in "$_D_patchdir"/"$1"/*.patch; do
+        if [ -e "$_patch" ]; then
+            patch -Np1 -i "$_D_patchdir"/"$1"/"$_patch" || return 1
+        fi
     done
     if [ "$_D_os" = "OpenBSD" ]; then
-        for _patcho in $(ls "$_D_patchdir"/openbsd/"$1"/); do
-            patch -Np1 -i "$_D_patchdir"/openbsd/"$1"/"$_patcho" || return 1
+        for _patcho in "$_D_patchdir"/openbsd/"$1"/*.patch; do
+            if [ -e "$_patcho" ]; then
+                patch -Np1 -i "$_D_patchdir"/openbsd/"$1"/"$_patcho" || return 1
+            fi
         done
     fi
     return 0
@@ -40,9 +44,9 @@ cleaning() {
 # Install dependencies from binary repository
 install_deps() {
     if [ "$_D_os" = "OpenBSD" ]; then
-        doas pkg_add $_D_OpenBSD_deps || return 1
+        doas pkg_add "$_D_OpenBSD_deps" || return 1
     elif [ "$_D_os" = "FreeBSD" ] || [ "$_D_os" = "DragonFly" ]; then
-        sudo pkg install $_D_FreeBSD_deps || return 1
+        sudo pkg install "$_D_FreeBSD_deps" || return 1
     fi
     return 0
 }
@@ -55,17 +59,18 @@ install_deps() {
 # BUILD ON: OpenBSD, FreeBSD, DragonFly, NetBSD
 build_mzc() {
     msg "Build manjaro-zsh-config..."
-    cd extrenal
+    cd extrenal || return 1
     git clone https://github.com/Chrysostomus/manjaro-zsh-config || return 1
-    cd manjaro-zsh-config
+    cd manjaro-zsh-config || return 1
     patching manjaro-zsh-config || return 1
-    install -d ${_D_zsh_confdir} || return 1
+    install -d "$_D_zsh_confdir" || return 1
     install -m644 .zshrc  "${HOME}/.zshrc" || return 1
     install -m644 manjaro-zsh-config "${_D_zsh_confdir}/manjaro-zsh-config" || return 1
     install -m644 manjaro-zsh-prompt "${_D_zsh_confdir}/manjaro-zsh-prompt" || return 1
     install -m644 p10k.zsh "${_D_zsh_confdir}/p10k.zsh" || return 1
     install -m644 p10k-portable.zsh "${_D_zsh_confdir}/p10k-portable.zsh" || return 1
-    msg "...manjaro-zsh-config done." && cd $_D_basedir
+    msg "...manjaro-zsh-config done."
+    cd "$_D_basedir" || return 1
     return 0
 }
 
@@ -74,11 +79,12 @@ build_mzc() {
 # BUILD ON: OpenBSD
 build_zas() {
     msg "Build zsh-autosuggestions..."
-    cd extrenal
+    cd extrenal || return 1
     git clone https://github.com/zsh-users/zsh-autosuggestions || return 1
-    cd zsh-autosuggestions
+    cd zsh-autosuggestions || return 1
     install -m644 zsh-autosuggestions.zsh "${_D_zsh_confdir}/zsh-autosuggestions.zsh" || return 1
-    msg "...zsh-autosuggestions done." && cd $_D_basedir
+    msg "...zsh-autosuggestions done."
+    cd "$_D_basedir" || return 1
     return 0
 }
 
@@ -87,11 +93,12 @@ build_zas() {
 # BUILD ON: OpenBSD, FreeBSD, DragonFly
 build_zhss() {
     msg "Build zsh-history-substring-search..."
-    cd extrenal
+    cd extrenal || return 1
     git clone https://github.com/zsh-users/zsh-history-substring-search || return 1
-    cd zsh-history-substring-search
+    cd zsh-history-substring-search || return 1
     install -m644 zsh-history-substring-search.zsh "${_D_zsh_confdir}/zsh-history-substring-search.zsh" || return 1
-    msg "...zsh-history-substring-search done." && cd $_D_basedir
+    msg "...zsh-history-substring-search done."
+    cd "$_D_basedir" || return 1
     return 0
 }
 
@@ -101,12 +108,13 @@ build_zhss() {
 # BUILD ON: OpenBSD
 build_zc() {
     msg "Build zsh-completions..."
-    cd extrenal
+    cd extrenal || return 1
     git clone https://github.com/zsh-users/zsh-completions || return 1
-    cd zsh-completions/src
+    cd zsh-completions/src || return 1
     install -d "${_D_zsh_confdir}/zsh-completions" || return 1 
     find . -type f -exec install -m644 '{}' "${_D_zsh_confdir}/zsh-completions/{}" ';' || return 1
-    msg "...zsh-completions done." && cd $_D_basedir
+    msg "...zsh-completions done."
+    cd "$_D_basedir" || return 1
     return 0
 }
 
@@ -116,9 +124,9 @@ build_zc() {
 # BUILD ON: OpenBSD, FreeBSD, DragonFly, NetBSD
 build_p10k() {
     msg "Build powerlevel10k theme..."
-    cd extrenal
+    cd extrenal || return 1
     git clone https://github.com/romkatv/powerlevel10k || return 1
-    cd powerlevel10k/gitstatus
+    cd powerlevel10k/gitstatus || return 1
     sed -i '' '/gitstatus_cxx=clang++12/d' build  || return 1
     ./build -w  || return 1
     # go to ./build/powerlevel10k
@@ -127,39 +135,42 @@ build_p10k() {
     rm -rf gitstatus/src  || return 1
     rm -rf gitstatus/deps  || return 1
     rm -rf gitstatus/.vscode  || return 1
-    install -d ${_D_zsh_confdir}/zsh-theme-powerlevel10k/config  || return 1
-    install -d ${_D_zsh_confdir}/zsh-theme-powerlevel10k/internal  || return 1
-    install -d ${_D_zsh_confdir}/zsh-theme-powerlevel10k/gitstatus/usrbin  || return 1
-    install -d ${_D_zsh_confdir}/zsh-theme-powerlevel10k/gitstatus/docs  || return 1
+    install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/config"  || return 1
+    install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/internal"  || return 1
+    install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/gitstatus/usrbin"  || return 1
+    install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/gitstatus/docs"  || return 1
     find . -type f -exec install '{}' "${_D_zsh_confdir}/zsh-theme-powerlevel10k/{}" ';'  || return 1
-    make -C ${_D_zsh_confdir}/zsh-theme-powerlevel10k minify  || return 1
-    cd ${_D_zsh_confdir}/zsh-theme-powerlevel10k
+    make -C "${_D_zsh_confdir}/zsh-theme-powerlevel10k minify"  || return 1
+    cd "${_D_zsh_confdir}/zsh-theme-powerlevel10k" || return 1
     for file in *.zsh-theme internal/*.zsh gitstatus/*.zsh gitstatus/install; do
         zsh -fc "emulate zsh -o no_aliases && zcompile -R -- $file.zwc $file"  || return 1
     done
-    msg "...powerlevel10k theme done." && cd $_D_basedir
+    msg "...powerlevel10k theme done."
+    cd "$_D_basedir" || return 1
     return 0
 }
 
 # Edit config file(s), and install them
 build_fluxbox() {
     msg "Build fluxbox configs..."
-    cd fluxbox
+    cd fluxbox || return 1
     sed -i "s|@OSNAME@|$_D_os|" menu
-    install -d $HOME/.fluxbox/styles/kikadf/pixmaps || return 1
-    install -d $HOME/.fluxbox/backgrounds || return 1
+    install -d "$HOME/.fluxbox/styles/kikadf/pixmaps" || return 1
+    install -d "$HOME/.fluxbox/backgrounds" || return 1
     find . -type f -exec install -m644 '{}' "$HOME/.fluxbox/{}" ';'  || return 1
-    msg "...fluxbox configs done." && cd $_D_basedir
+    msg "...fluxbox configs done."
+    cd "$_D_basedir" || return 1
     return 0
 }
 
 # Rofi config
 build_rofi() {
     msg "Build rofi configs..."
-    cd config/rofi
-    install -d $HOME/.config/rofi || return 1
+    cd config/rofi || return 1
+    install -d "$HOME/.config/rofi" || return 1
     find . -type f -exec install -m644 '{}' "$HOME/.config/rofi/{}" ';'  || return 1
-    msg "...rofi configs done." && cd $_D_basedir
+    msg "...rofi configs done."
+    cd "$_D_basedir" || return 1
     return 0
 }
 
