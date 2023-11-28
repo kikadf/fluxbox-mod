@@ -174,6 +174,18 @@ build_rofi() {
     return 0
 }
 
+# Fix groups to enable user shutdown/reboot
+add_groups() {
+    if [ "$_D_os" = "OpenBSD" ]; then
+        msg "Add $USER to _shutdown group..."
+        doas user mod -G _shutdown "$USER" || return 1
+    else
+        msg "Unknown OS, groups not changed."
+    fi
+    msg "...group changes done."
+    return 0
+}
+
 # Work
 msg "Install dependencies:"
 install_deps || exit 1
@@ -187,6 +199,7 @@ if [ "$_D_os" = "OpenBSD" ]; then
 fi
 build_fluxbox || exit 1
 build_rofi || exit 1
+add_groups || exit 1
 
 if [ "$1" != "-d" ]; then
     cleaning
