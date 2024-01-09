@@ -13,7 +13,7 @@ _D_FreeBSD_deps="zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions
 _D_NetBSD_deps="linux-libertine-ttf feh zsh zsh-autosuggestions zsh-syntax-highlighting \
                 zsh-completions breeze-icons rofi fluxbox nerd-fonts-Meslo cmake gmake \
                 wget binutils perl"
-mkdir extrenal
+mkdir external
 
 # Small functions
 msg() {
@@ -59,7 +59,7 @@ install_deps() {
 # BUILD ON: OpenBSD, FreeBSD, DragonFly, NetBSD
 build_mzc() {
     msg "Build manjaro-zsh-config..."
-    cd extrenal || return 1
+    cd external || return 1
     git clone https://github.com/Chrysostomus/manjaro-zsh-config || return 1
     cd manjaro-zsh-config || return 1
     patching manjaro-zsh-config || return 1
@@ -79,7 +79,7 @@ build_mzc() {
 # BUILD ON: OpenBSD
 build_zas() {
     msg "Build zsh-autosuggestions..."
-    cd extrenal || return 1
+    cd external || return 1
     git clone https://github.com/zsh-users/zsh-autosuggestions || return 1
     cd zsh-autosuggestions || return 1
     install -m644 zsh-autosuggestions.zsh "${_D_zsh_confdir}/zsh-autosuggestions.zsh" || return 1
@@ -93,7 +93,7 @@ build_zas() {
 # BUILD ON: OpenBSD, FreeBSD, DragonFly
 build_zhss() {
     msg "Build zsh-history-substring-search..."
-    cd extrenal || return 1
+    cd external || return 1
     git clone https://github.com/zsh-users/zsh-history-substring-search || return 1
     cd zsh-history-substring-search || return 1
     install -m644 zsh-history-substring-search.zsh "${_D_zsh_confdir}/zsh-history-substring-search.zsh" || return 1
@@ -108,7 +108,7 @@ build_zhss() {
 # BUILD ON: OpenBSD
 build_zc() {
     msg "Build zsh-completions..."
-    cd extrenal || return 1
+    cd external || return 1
     git clone https://github.com/zsh-users/zsh-completions || return 1
     cd zsh-completions/src || return 1
     install -d "${_D_zsh_confdir}/zsh-completions" || return 1 
@@ -124,7 +124,7 @@ build_zc() {
 # BUILD ON: OpenBSD, FreeBSD, DragonFly, NetBSD
 build_p10k() {
     msg "Build powerlevel10k theme..."
-    cd extrenal || return 1
+    cd external || return 1
     git clone https://github.com/romkatv/powerlevel10k || return 1
     cd powerlevel10k/gitstatus || return 1
     sed -i '' '/gitstatus_cxx=clang++12/d' build  || return 1
