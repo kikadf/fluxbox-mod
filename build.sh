@@ -47,6 +47,8 @@ install_deps() {
         doas pkg_add "$_D_OpenBSD_deps" || return 1
     elif [ "$_D_os" = "FreeBSD" ] || [ "$_D_os" = "DragonFly" ]; then
         sudo pkg install "$_D_FreeBSD_deps" || return 1
+    elif [ "$_D_os" = "NetBSD" ]; then
+        sudo pkgin install "$_D_NetBSD_deps" || return 1
     fi
     return 0
 }
@@ -90,7 +92,7 @@ build_zas() {
 
 # zsh-history-substring-search
 # https://github.com/zsh-users/zsh-history-substring-search
-# BUILD ON: OpenBSD, FreeBSD, DragonFly
+# BUILD ON: OpenBSD, FreeBSD, DragonFly, NetBSD
 build_zhss() {
     msg "Build zsh-history-substring-search..."
     cd external || return 1
