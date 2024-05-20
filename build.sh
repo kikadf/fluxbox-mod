@@ -218,7 +218,7 @@ add_groups() {
 }
 
 # Work
-if [ $_D_debug -eq 0 ]; then
+if [ $_D_update -eq 0 ]; then
     msg "Install dependencies:"
     install_deps || die "Installing dependencies"
 fi
