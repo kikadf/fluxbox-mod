@@ -45,20 +45,20 @@ die () {
 patching() {
     for _patch in "$_D_patchdir"/"$1"/*.patch; do
         if [ -e "$_patch" ]; then
-            patch -Np1 -i "$_D_patchdir"/"$1"/"$_patch" || return 1
+            patch -Np1 -i "$_patch" || return 1
         fi
     done
     if [ "$_D_os" = "OpenBSD" ]; then
         for _patcho in "$_D_patchdir"/openbsd/"$1"/*.patch; do
             if [ -e "$_patcho" ]; then
-                patch -Np1 -i "$_D_patchdir"/openbsd/"$1"/"$_patcho" || return 1
+                patch -Np1 -i "$_patcho" || return 1
             fi
         done
     fi
     if [ "$_D_os" = "NetBSD" ]; then
-        for _patcho in "$_D_patchdir"/netbsd/"$1"/*.patch; do
-            if [ -e "$_patcho" ]; then
-                patch -Np1 -i "$_D_patchdir"/netbsd/"$1"/"$_patcho" || return 1
+        for _patchn in "$_D_patchdir"/netbsd/"$1"/*.patch; do
+            if [ -e "$_patchn" ]; then
+                patch -Np1 -i "$_patchn" || return 1
             fi
         done
     fi
