@@ -1,6 +1,8 @@
 #!/bin/sh
 # Install script to Fluxbox-mod
 
+_D_debug="0"
+_D_update="0"
 _D_os=$(uname -s)
 _D_zsh_confdir="$HOME/.config/zsh.d"
 _D_basedir=$(pwd)
@@ -15,9 +17,29 @@ _D_NetBSD_deps="linux-libertine-ttf feh zsh zsh-autosuggestions zsh-syntax-highl
                 wget binutils perl"
 mkdir external
 
+# Read arguments
+for _arg in "$@"; do
+    case "$_arg" in
+        -d)
+            _D_debug="1"
+            ;;
+        -u)
+            _D_update="1"
+            ;;
+    esac
+done
+
 # Small functions
 msg() {
     echo ">>> $*"
+}
+
+die () {
+    _errc=$?
+    if [ -n "$1" ]; then
+        echo ">>> $1 failed ($_errc)"
+    fi
+    exit $_errc
 }
 
 patching() {
@@ -30,6 +52,13 @@ patching() {
         for _patcho in "$_D_patchdir"/openbsd/"$1"/*.patch; do
             if [ -e "$_patcho" ]; then
                 patch -Np1 -i "$_D_patchdir"/openbsd/"$1"/"$_patcho" || return 1
+            fi
+        done
+    fi
+    if [ "$_D_os" = "NetBSD" ]; then
+        for _patcho in "$_D_patchdir"/netbsd/"$1"/*.patch; do
+            if [ -e "$_patcho" ]; then
+                patch -Np1 -i "$_D_patchdir"/netbsd/"$1"/"$_patcho" || return 1
             fi
         done
     fi
@@ -189,21 +218,23 @@ add_groups() {
 }
 
 # Work
-msg "Install dependencies:"
-install_deps || exit 1
-msg "Start build and install Fluxbox-mod:"
-build_mzc || exit 1
-build_zhss || exit 1
-build_p10k || exit 1
-if [ "$_D_os" = "OpenBSD" ]; then
-    build_zc || exit 1
-    build_zas || exit 1
+if [ $_D_debug -eq 0 ]; then
+    msg "Install dependencies:"
+    install_deps || die "Installing dependencies"
 fi
-build_fluxbox || exit 1
-build_rofi || exit 1
-add_groups || exit 1
+msg "Start build and install Fluxbox-mod:"
+build_mzc || die "Building mozilla-zsh-config"
+build_zhss || die "Building zsh-history-substring-search"
+build_p10k || die "Building powerlevel10k theme"
+if [ "$_D_os" = "OpenBSD" ]; then
+    build_zc || die "Building zsh-completions"
+    build_zas || die "Building zsh-autosuggestions"
+fi
+build_fluxbox ||  die "Install fluxbox configs"
+build_rofi ||  die "Install rofi configs"
+add_groups ||  die "Set user groups"
 
-if [ "$1" != "-d" ]; then
+if [ $_D_debug -eq 0 ]; then
     cleaning
     msg "Ready."
 else
