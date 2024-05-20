@@ -158,7 +158,7 @@ build_p10k() {
     cd external || return 1
     git clone https://github.com/romkatv/powerlevel10k || return 1
     cd powerlevel10k/gitstatus || return 1
-    sed -i '' '/gitstatus_cxx=clang++12/d' build  || return 1
+    sed -i'' '/gitstatus_cxx=clang++12/d' build  || return 1
     ./build -w  || return 1
     # go to ./build/powerlevel10k
     cd ..
@@ -171,7 +171,7 @@ build_p10k() {
     install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/gitstatus/usrbin"  || return 1
     install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/gitstatus/docs"  || return 1
     find . -type f -exec install '{}' "${_D_zsh_confdir}/zsh-theme-powerlevel10k/{}" ';'  || return 1
-    make -C "${_D_zsh_confdir}/zsh-theme-powerlevel10k minify"  || return 1
+    make -C "${_D_zsh_confdir}/zsh-theme-powerlevel10k" minify  || return 1
     cd "${_D_zsh_confdir}/zsh-theme-powerlevel10k" || return 1
     for file in *.zsh-theme internal/*.zsh gitstatus/*.zsh gitstatus/install; do
         zsh -fc "emulate zsh -o no_aliases && zcompile -R -- $file.zwc $file"  || return 1
