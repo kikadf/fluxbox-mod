@@ -211,7 +211,7 @@ add_groups() {
         msg "Add $USER to _shutdown group..."
         doas user mod -G _shutdown "$USER" || return 1
     else
-        msg "Unknown OS, groups not changed."
+        msg "Groups not changed."
     fi
     msg "...group changes done."
     return 0
