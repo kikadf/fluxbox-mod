@@ -242,6 +242,7 @@ set_autostart() {
     cd / || return 1
     # gettytab, ttys
     patching system || return 1
+    cd "$_D_basedir" || return 1
     return 0
 }
 
