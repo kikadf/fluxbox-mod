@@ -63,7 +63,11 @@ patching() {
     if [ "$_D_os" = "NetBSD" ]; then
         for _patchn in "$_D_patchdir"/netbsd/"$1"/*.patch; do
             if [ -e "$_patchn" ]; then
-                patch -Np1 -i "$_patchn" || return 1
+                if [ "$1" = "system" ]; then
+                    sudo patch -Np1 -i "$_patchn" || return 1
+                else
+                    patch -Np1 -i "$_patchn" || return 1
+                fi
             fi
         done
     fi
@@ -242,7 +246,7 @@ set_autostart() {
     install -m644 config/zsh/zprofile.in "${HOME}/.zprofile" || return 1
     cd /etc || return 1
     # gettytab, ttys
-    sudo sh -c patching system || return 1
+    patching system || return 1
     cd "$_D_basedir" || return 1
     return 0
 }
