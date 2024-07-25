@@ -193,10 +193,10 @@ build_p10k() {
 build_fluxbox() {
     msg "Build fluxbox configs..."
     cd fluxbox || return 1
-    sed -i "s|@OSNAME@|$_D_os|" menu
     install -d "$HOME/.fluxbox/styles/kikadf/pixmaps" || return 1
     install -d "$HOME/.fluxbox/backgrounds" || return 1
     find . -type f -exec install -m644 '{}' "$HOME/.fluxbox/{}" ';'  || return 1
+    sed -i "s|@OSNAME@|$_D_os|" "$HOME/.fluxbox/menu"
     msg "...fluxbox configs done."
     cd "$_D_basedir" || return 1
     return 0
