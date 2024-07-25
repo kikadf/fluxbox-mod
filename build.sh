@@ -79,12 +79,13 @@ cleaning() {
 
 # Install dependencies from binary repository
 install_deps() {
+    # shellcheck disable=SC2086
     if [ "$_D_os" = "OpenBSD" ]; then
-        doas pkg_add "$_D_OpenBSD_deps" || return 1
+        doas pkg_add $_D_OpenBSD_deps || return 1
     elif [ "$_D_os" = "FreeBSD" ] || [ "$_D_os" = "DragonFly" ]; then
-        sudo pkg install "$_D_FreeBSD_deps" || return 1
+        sudo pkg install $_D_FreeBSD_deps || return 1
     elif [ "$_D_os" = "NetBSD" ]; then
-        sudo pkgin install "$_D_NetBSD_deps" || return 1
+        sudo pkgin install $_D_NetBSD_deps || return 1
     fi
     return 0
 }
@@ -239,9 +240,9 @@ set_zsh() {
 set_autostart() {
     install -m644 config/xorg/xinitrc.in "${HOME}/.xinitrc" || return 1
     install -m644 config/zsh/zprofile.in "${HOME}/.zprofile" || return 1
-    cd / || return 1
+    cd /etc || return 1
     # gettytab, ttys
-    patching system || return 1
+    sudo sh -c patching system || return 1
     cd "$_D_basedir" || return 1
     return 0
 }
