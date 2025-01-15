@@ -1,1 +1,1 @@
-exec startfluxbox
+exec ck-launch-session startfluxbox

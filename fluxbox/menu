@@ -13,7 +13,7 @@
       [restart] (Restart Fluxbox)
       [separator]
       [exit] (Logout)
-      [exec] (Reboot) {shutdown -r now}
-      [exec] (Shutdown) {shutdown -p now}
+      [exec] (Reboot) {dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart}
+      [exec] (Shutdown) {dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop}
 [endencoding]
 [end]
