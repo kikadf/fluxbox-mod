@@ -14,7 +14,7 @@ _D_FreeBSD_deps="zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions
                  kf5-breeze-icons rofi fluxbox"
 _D_NetBSD_deps="linux-libertine-ttf feh zsh zsh-autosuggestions zsh-syntax-highlighting \
                 zsh-completions breeze-icons rofi fluxbox nerd-fonts-Meslo cmake gmake \
-                wget binutils perl wmctrl"
+                wget binutils perl wmctrl consolekit"
 
 # Read arguments
 for _arg in "$@"; do
@@ -261,7 +261,7 @@ help() {
     echo ""
     echo "  -d      Don't clean external build directory after build"
     echo "  -u      Don't install dependencies"
-    echo "  -U      Don't install config files exclude zsh"
+    echo "  -U      Don't install system config files"
     echo "  -h      Show this help"
     echo ""
     echo "  Without arg make full build, install dependencies, install"
