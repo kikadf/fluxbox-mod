@@ -224,6 +224,8 @@ add_groups() {
     if [ "$_D_os" = "OpenBSD" ]; then
         msg "Add $USER to _shutdown group..."
         doas user mod -G _shutdown "$USER" || return 1
+    elif [ "$_D_os" = "NetBSD" ]; then
+        sudo usermod -G operator "$USER" || return 1
     else
         msg "Groups not changed."
     fi
@@ -275,14 +277,14 @@ main() {
             msg "Install dependencies:"
             install_deps || die "Installing dependencies"
         fi
-        build_fluxbox ||  die "Install fluxbox configs"
-        build_rofi ||  die "Install rofi configs"
         add_groups ||  die "Set user groups"
         set_zsh || die "Set zsh to default shell"
         set_autostart || die "Set autostart/login"
     else
         msg "Update Fluxbox-mod:"
     fi
+    build_fluxbox ||  die "Install fluxbox configs"
+    build_rofi ||  die "Install rofi configs"
     build_mzc || die "Building mozilla-zsh-config"
     build_zhss || die "Building zsh-history-substring-search"
     build_p10k || die "Building powerlevel10k theme"
