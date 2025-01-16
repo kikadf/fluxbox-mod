@@ -53,7 +53,7 @@ session.screen0.noFocusWhileTypingDelay:    0
 session.screen0.opaqueMove:                 true
 session.screen0.showwindowposition:         false
 session.screen0.defaultDeco:                NORMAL
-session.screen0.allowRemoteActions:         false
+session.screen0.allowRemoteActions:         true
 session.screen0.focusModel:                 ClickFocus
 session.configVersion:                      13
 session.forcePseudoTransparency:            false

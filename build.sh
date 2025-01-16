@@ -14,7 +14,7 @@ _D_FreeBSD_deps="zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions
                  kf5-breeze-icons rofi fluxbox"
 _D_NetBSD_deps="linux-libertine-ttf feh zsh zsh-autosuggestions zsh-syntax-highlighting \
                 zsh-completions breeze-icons rofi fluxbox nerd-fonts-Meslo cmake gmake \
-                wget binutils perl"
+                wget binutils perl wmctrl"
 
 # Read arguments
 for _arg in "$@"; do
@@ -199,8 +199,10 @@ build_fluxbox() {
     cd fluxbox || return 1
     install -d "$HOME/.fluxbox/styles/kikadf/pixmaps" || return 1
     install -d "$HOME/.fluxbox/backgrounds" || return 1
+    install -d "$HOME/.fluxbox/scripts" || return 1
     find . -type f -exec install -m644 '{}' "$HOME/.fluxbox/{}" ';'  || return 1
     sed -i "s|@OSNAME@|$_D_os|" "$HOME/.fluxbox/menu"
+    chmod 755 "$HOME"/.fluxbox/scripts/*
     msg "...fluxbox configs done."
     cd "$_D_basedir" || return 1
     return 0

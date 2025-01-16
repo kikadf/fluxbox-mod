@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Close running applications
+_app_ids=$(wmctrl -l | cut -d' ' -f1)
+for i in $_app_ids; do wmctrl -ic "$i"; done
+while [ "$_app_ids" != "" ]; do
+        sleep 0.1
+        _app_ids=$(wmctrl -l | cut -d' ' -f1)
+done
+
+# Exit from fluxbox
+fluxbox-remote exit
+
+if [ "$1" = "-r" ]; then
+        # Reboot
+        dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit \
+                  /org/freedesktop/ConsoleKit/Manager \
+                  org.freedesktop.ConsoleKit.Manager.Restart
+else
+        # Poweroff 
+        dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit \
+                  /org/freedesktop/ConsoleKit/Manager \
+                  org.freedesktop.ConsoleKit.Manager.Stop
+fi
+
+exit $?
