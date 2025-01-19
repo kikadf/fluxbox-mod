@@ -70,7 +70,7 @@ Mod4 8 :Tab 8
 Mod4 9 :Tab 9
 
 # open a dialog to run programs
-Mod4 a :Exec rofi -show drun -show-icons -theme kikadf
+Mod4 a :Exec rofi -show combi -combi-modi "window,drun" -modi combi -show-icons -theme kikadf
 
 # current window commands
 Mod1 F4 :Close
