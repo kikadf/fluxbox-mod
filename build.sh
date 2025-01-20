@@ -14,7 +14,8 @@ _D_FreeBSD_deps="zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions
                  kf5-breeze-icons rofi fluxbox"
 _D_NetBSD_deps="linux-libertine-ttf feh zsh zsh-autosuggestions zsh-syntax-highlighting \
                 zsh-completions breeze-icons rofi fluxbox nerd-fonts-Meslo cmake gmake \
-                wget binutils perl wmctrl consolekit qt5ct picom"
+                wget binutils perl wmctrl consolekit qt5ct picom keepassxc gnome-keyring \
+                libsecret"
 
 # Read arguments
 for _arg in "$@"; do
