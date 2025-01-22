@@ -20,7 +20,7 @@ copyq &
 picom &
 keepassxc &
 keepassxc-unlock -o &
-quasselclient &
+quasselclient --hidewindow &
 numlockx on &
 
 # And last but not least we start fluxbox.
