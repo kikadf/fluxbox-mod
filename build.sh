@@ -14,8 +14,8 @@ _D_FreeBSD_deps="zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions
                  kf5-breeze-icons rofi fluxbox"
 _D_NetBSD_deps="linux-libertine-ttf feh zsh zsh-autosuggestions zsh-syntax-highlighting \
                 zsh-completions breeze-icons rofi fluxbox nerd-fonts-Meslo cmake gmake \
-                wget binutils perl wmctrl consolekit qt5ct picom keepassxc gnome-keyring \
-                libsecret numlockx quasselclient"
+                wget binutils perl wmctrl consolekit picom keepassxc gnome-keyring \
+                libsecret numlockx quasselclient xcursor-vanilla-dmz "
 
 # Read arguments
 for _arg in "$@"; do
@@ -248,6 +248,7 @@ set_zsh() {
 # Set autologin and autostart X
 set_autostart() {
     install -m644 config/xorg/xinitrc.in "${HOME}/.xinitrc" || return 1
+    install -m644 config/xorg/Xresources.in "${HOME}/.Xresources" || return 1
     install -m644 config/zsh/zprofile.in "${HOME}/.zprofile" || return 1
     cd /etc || return 1
     # gettytab, ttys
