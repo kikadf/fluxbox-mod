@@ -15,7 +15,7 @@ _D_FreeBSD_deps="zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions
 _D_NetBSD_deps="linux-libertine-ttf feh zsh zsh-autosuggestions zsh-syntax-highlighting \
                 zsh-completions breeze-icons rofi fluxbox nerd-fonts-Meslo cmake gmake \
                 wget binutils perl wmctrl consolekit picom keepassxc gnome-keyring \
-                libsecret numlockx quasselclient xcursor-vanilla-dmz "
+                libsecret numlockx quasselclient xcursor-vanilla-dmz qt5ct qt6ct"
 
 # Read arguments
 for _arg in "$@"; do
@@ -220,6 +220,20 @@ build_rofi() {
     return 0
 }
 
+# Install Qt configs
+build_qttheme() {
+    msg "Build Qt configs..."
+    cd external || return 1
+    git clone https://github.com/catppuccin/qt5ct.git || return 1
+    cp -Rf ../config/qt5ct "$HOME/.config/" || return 1
+    cp -f qt5ct/themes/*.conf "$HOME/.config/qt5ct/colors/" || return 1
+    cp -Rf ../config/qt6ct "$HOME/.config/" || return 1
+    cp -f qt5ct/themes/*.conf "$HOME/.config/qt6ct/colors/" || return 1
+    msg "...Qt configs done."
+    cd "$_D_basedir" || return 1
+    return 0
+}
+
 # Fix groups to enable user shutdown/reboot
 add_groups() {
     if [ "$_D_os" = "OpenBSD" ]; then
@@ -287,6 +301,7 @@ main() {
     fi
     build_fluxbox ||  die "Install fluxbox configs"
     build_rofi ||  die "Install rofi configs"
+    build_qttheme ||  die "Install Qt configs"
     build_mzc || die "Building mozilla-zsh-config"
     build_zhss || die "Building zsh-history-substring-search"
     build_p10k || die "Building powerlevel10k theme"
