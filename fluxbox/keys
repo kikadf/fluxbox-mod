@@ -72,6 +72,15 @@ Mod4 9 :Tab 9
 # open a dialog to run programs
 Mod4 a :Exec rofi -show combi -combi-modi "window,drun" -modi combi -show-icons -theme kikadf
 
+# open chromium
+Mod4 c :Exec chromium
+
+# open chromium-incognito
+Mod4 p :Exec chromium --incognito
+
+# open konsole
+Mod4 x :Exec konsole
+
 # current window commands
 Mod1 F4 :Close
 Mod1 F5 :Kill
