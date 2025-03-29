@@ -78,6 +78,9 @@ Mod4 c :Exec chromium
 # open chromium-incognito
 Mod4 p :Exec chromium --incognito
 
+# open vscode
+Mod4 v :Exec code-oss
+
 # open konsole
 Mod4 x :Exec konsole
 

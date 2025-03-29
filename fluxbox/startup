@@ -18,6 +18,7 @@ xmodmap "/home/kikadf/.Xmodmap"
 feh --no-fehbg --bg-fill '/home/kikadf/.fluxbox/backgrounds/steampunkcity.jpg' &
 copyq &
 picom &
+kconky &
 keepassxc &
 keepassxc-unlock -o &
 quasselclient --hidewindow &

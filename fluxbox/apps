@@ -5,3 +5,18 @@
 [app] (name=krusader)
   [Deco]        {NORMAL}
 [end]
+[app] (name=keepassxc)
+  [Deco]        {NORMAL}
+  [Close]       {true}
+  [Maximized]   {no}
+[end]
+[app] (name=konsole)
+  [Deco]        {NORMAL}
+  [Close]       {true}
+  [Maximized]   {no}
+[end]
+[app] (name=quasselclient)
+  [Deco]        {NORMAL}
+  [Close]       {true}
+  [Maximized]   {no}
+[end]
