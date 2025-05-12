@@ -15,7 +15,8 @@ _D_FreeBSD_deps="zsh zsh-autosuggestions zsh-syntax-highlighting zsh-completions
 _D_NetBSD_deps="linux-libertine-ttf feh zsh zsh-autosuggestions zsh-syntax-highlighting \
                 zsh-completions breeze-icons rofi fluxbox nerd-fonts-Meslo cmake gmake \
                 wget binutils perl wmctrl consolekit picom keepassxc gnome-keyring \
-                libsecret numlockx quasselclient xcursor-vanilla-dmz qt5ct qt6ct"
+                libsecret numlockx quasselclient xcursor-vanilla-dmz qt5ct qt6ct \
+                zsh-history-substring-search"
 
 # Read arguments
 for _arg in "$@"; do
@@ -134,7 +135,7 @@ build_zas() {
 
 # zsh-history-substring-search
 # https://github.com/zsh-users/zsh-history-substring-search
-# BUILD ON: OpenBSD, FreeBSD, DragonFly, NetBSD
+# BUILD ON: OpenBSD, FreeBSD, DragonFly
 build_zhss() {
     msg "Build zsh-history-substring-search..."
     cd external || return 1
@@ -303,7 +304,9 @@ main() {
     build_rofi ||  die "Install rofi configs"
     build_qttheme ||  die "Install Qt configs"
     build_mzc || die "Building mozilla-zsh-config"
-    build_zhss || die "Building zsh-history-substring-search"
+    if [ "$_D_os" != "NetBSD" ]; then
+        build_zhss || die "Building zsh-history-substring-search"
+    fi
     build_p10k || die "Building powerlevel10k theme"
     if [ "$_D_os" = "OpenBSD" ]; then
         build_zc || die "Building zsh-completions"
