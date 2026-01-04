@@ -227,8 +227,10 @@ build_qttheme() {
     cd external || return 1
     git clone https://github.com/catppuccin/qt5ct.git || return 1
     cp -Rf ../config/qt5ct "$HOME/.config/" || return 1
+    mkdir -p "$HOME/.config/qt5ct/colors/" || return 1
     cp -f qt5ct/themes/*.conf "$HOME/.config/qt5ct/colors/" || return 1
     cp -Rf ../config/qt6ct "$HOME/.config/" || return 1
+    mkdir -p "$HOME/.config/qt6ct/colors/" || return 1
     cp -f qt5ct/themes/*.conf "$HOME/.config/qt6ct/colors/" || return 1
     msg "...Qt configs done."
     cd "$_D_basedir" || return 1
